@@ -1,11 +1,11 @@
 import { Component, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {AutoFocus} from '../../shared/directives/auto-focus'
+import {appAutoFocus} from '../../shared/directives/auto-focus'
 
 
 @Component({
   selector: 'app-tasks',
-  imports: [FormsModule, AutoFocus],
+  imports: [FormsModule, appAutoFocus],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
