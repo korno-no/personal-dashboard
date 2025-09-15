@@ -1,0 +1,25 @@
+.new-task{
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.input{
+    margin-right: 1rem ;
+}
+
+.task-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.task{
+    border: 1px solid black;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.task__button__delete{
+    color: red;
+}
+
+
