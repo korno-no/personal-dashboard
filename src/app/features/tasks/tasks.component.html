@@ -1,32 +1,45 @@
 <div class="container-center">
   <div class="new-task">
-    <textarea class="input input_new-task" [(ngModel)]="newTask"></textarea>
+    <app-input 
+      class="input_new-task"
+      [type]="'textarea'"
+      [name]="'new-task'"
+      [(value)]="newTask" 
+      >
+    </app-input>
     <app-button 
       [label]="'new task'" 
       [disabled]="!newTask().trim()"
-      [type]="'new-task'" 
-      (click)="onAddNewTask()" >
+      [theme]="'new-task'" 
+      (clicked)="onAddNewTask()" >
     </app-button>
   </div>
+
   <div class="task-list">
+
     @for(task of tasks; track $index){
     <div class="task-item">
+
       @if(task.editing()){
-      <textarea class="input input_edit-task" 
-        [appAutoFocus]="task.editing()"
-        [(ngModel)]="task.editText">
-      </textarea>
+      <app-input 
+        class="input_edit-task"
+        [type]="'textarea'"
+        [name]="'edit-task'"
+        [(value)]="task.editText" 
+        [appAutoFocus]="task.editing()">
+      </app-input>
+      {{ task.editing()}}
       <div class="buttons">
         <app-button 
           [label]="'save'" 
-          [disabled]="!task.text().trim()"
-          [type]="'button_save'" 
-          (click)="onSaveEditTask($index)" >
+          [disabled]="!task.text().trim() || !task.editText().trim() "
+          [theme]="'button_save'" 
+          (clicked)="onSaveEditTask($index)" >
         </app-button>
         <app-button 
           [label]="'cancel'" 
-          [type]="'button_cancel'" 
-          (click)="onCancelEditTask($index)" >
+          [theme]="'button_cancel'" 
+          (clicked)="onCancelEditTask($index)" >
         </app-button>
       </div>
       }
@@ -35,13 +48,14 @@
         <div class="buttons">
         <app-button 
           [label]="'delete'" 
-          [type]="'button_delete'" 
+          [theme]="'button_delete'" 
           (click)="onDeleteTask($index)" >
         </app-button>
+
         <app-button 
           [label]="'edit'" 
-          [type]="'button_edit'" 
-          (click)="onStartEditTask($index)" >
+          [theme]="'button_edit'" 
+          (clicked)="onStartEditTask($index)" >
         </app-button>
         </div>
       }

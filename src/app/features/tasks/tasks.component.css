@@ -3,30 +3,10 @@
   --dark-shadow:
 }
 
-.input {
-  font-family: 'Quicksand';
-  font-weight: 400;
-  font-size: 1rem;
-  color: var(--text-main-color);
-  background-color: #EFF2F9;
-  margin-right: 2rem;
-  box-shadow: inset -2px -2px 3px #FAFBFF,
-              inset 3px 3px 3px rgba(22, 27, 29, 0.23);
-  border-radius: 1rem;
-  border: none;
-  outline: none;
-  padding: 1rem;
-  /*for textarea*/
-  resize: none;
-}
-.input:focus{
-  box-shadow: inset -4px -4px 6px #FAFBFF,
-              inset 5px 5px 5px rgba(22, 27, 29, 0.23);
-}
-
 .input_new-task, .input_edit-task {
   width: 100%;
   height: 5rem;
+  margin-right: 2rem;
 }
 .input_edit-task {
 width: 82%;
@@ -64,7 +44,6 @@ width: 82%;
   align-items: center;
   justify-content: space-between;
 }
-
 
 .buttons{
   display: flex;

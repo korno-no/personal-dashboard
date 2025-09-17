@@ -1,0 +1,11 @@
+@if (type === 'textarea') {
+  <textarea 
+    class="input"
+    [value]="value" 
+    [name]="name"
+    (input)="onInput($event)" 
+    >
+  </textarea>
+} @else {
+  <input class="input" [type]="type"/>
+}

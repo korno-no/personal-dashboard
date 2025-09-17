@@ -2,11 +2,12 @@ import { Component, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {appAutoFocus} from '../../shared/directives/auto-focus'
 import { Button } from "../../shared/ui/button/button";
+import { InputComponent } from "../../shared/ui/input/input";
 
 
 @Component({
   selector: 'app-tasks',
-  imports: [FormsModule, appAutoFocus, Button],
+  imports: [FormsModule, appAutoFocus, Button, InputComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
@@ -30,7 +31,7 @@ export class TasksComponent {
       editing: signal(false)
     }
 
-    this.tasks.push(newTaskObj)
+    this.tasks.unshift(newTaskObj)
     this.newTask.set('');
   }
 
