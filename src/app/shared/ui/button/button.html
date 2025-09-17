@@ -1,4 +1,6 @@
- <button class="button button_{{type}}"
-        [disabled]="disabled">
+ <button class="button button_{{theme}}"
+        [disabled]="disabled"
+        (click)="clicked.emit()"
+        >
       {{label}}
 </button>
