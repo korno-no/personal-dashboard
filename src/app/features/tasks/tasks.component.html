@@ -1,32 +1,54 @@
-<div class="new-task">
-    <textarea class="" [(ngModel)]="newTask"></textarea>
-    <button (click)="onAddNewTask()" [disabled]="!newTask().trim()" >add new task</button>
-</div>
-<div class="task-list">
+<div class="container-center">
+  <div class="new-task">
+    <textarea class="input input_new-task" [(ngModel)]="newTask"></textarea>
+    <app-button 
+      [label]="'new task'" 
+      [disabled]="!newTask().trim()"
+      [type]="'new-task'" 
+      (click)="onAddNewTask()" >
+    </app-button>
+  </div>
+  <div class="task-list">
     @for(task of tasks; track $index){
-        <div class="task-item">
-            @if(task.editing()){
-                <textarea class="input" [appAutoFocus]="task.editing()"
-                [(ngModel)]="task.editText">
-                </textarea>
-                <button class="button-save" 
-                    (click)="onSaveEditTask($index)"
-                    [disabled]= "!task.text().trim()">
-                    save
-                </button>
-                <button class="button-cancel" 
-                    (click)="onCancelEditTask($index)">
-                    cancel
-                </button>
-            }
-            @else{
-                {{task.text()}}
-                <button class="task__button__delete" (click)="onDeleteTask($index)">delete this task</button>
-                <button class="task__button__edit" (click)="onStartEditTask($index)">edit this task</button>
-            }
-        </div>   
+    <div class="task-item">
+      @if(task.editing()){
+      <textarea class="input input_edit-task" 
+        [appAutoFocus]="task.editing()"
+        [(ngModel)]="task.editText">
+      </textarea>
+      <div class="buttons">
+        <app-button 
+          [label]="'save'" 
+          [disabled]="!task.text().trim()"
+          [type]="'button_save'" 
+          (click)="onSaveEditTask($index)" >
+        </app-button>
+        <app-button 
+          [label]="'cancel'" 
+          [type]="'button_cancel'" 
+          (click)="onCancelEditTask($index)" >
+        </app-button>
+      </div>
+      }
+      @else{
+        {{task.text()}}
+        <div class="buttons">
+        <app-button 
+          [label]="'delete'" 
+          [type]="'button_delete'" 
+          (click)="onDeleteTask($index)" >
+        </app-button>
+        <app-button 
+          [label]="'edit'" 
+          [type]="'button_edit'" 
+          (click)="onStartEditTask($index)" >
+        </app-button>
+        </div>
+      }
+    </div>
     }
     @empty(){
-        <p>You don't have tasks yet</p>
+      <p>You don't have tasks yet</p>
     }
+  </div>
 </div>

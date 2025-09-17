@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+  --text-main-color: #485359
+}
 *{
     margin: 0;
     padding: 0;
@@ -6,4 +9,28 @@
 }
 html, body {
   height: 100%;
+}
+
+body{
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 400; 
+  font-size:1em;
+  color: var(--text-main-color);
+  background-color: #EFF2F9;
+}
+
+/* Light */
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./app/assets/fonts/Quicksand/static/Quicksand-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Regular */
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./app/assets/fonts/Quicksand/static/Quicksand-Light.ttf');
+  font-weight: 400;
+  font-style: normal;
 }

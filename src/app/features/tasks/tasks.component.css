@@ -1,25 +1,72 @@
-.new-task{
-    display: flex;
-    margin-bottom: 0.5rem;
+:root {
+  --light-shadow: #FAFBFF;
+  --dark-shadow:
 }
 
-.input{
-    margin-right: 1rem ;
+.input {
+  font-family: 'Quicksand';
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--text-main-color);
+  background-color: #EFF2F9;
+  margin-right: 2rem;
+  box-shadow: inset -2px -2px 3px #FAFBFF,
+              inset 3px 3px 3px rgba(22, 27, 29, 0.23);
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  /*for textarea*/
+  resize: none;
+}
+.input:focus{
+  box-shadow: inset -4px -4px 6px #FAFBFF,
+              inset 5px 5px 5px rgba(22, 27, 29, 0.23);
+}
+
+.input_new-task, .input_edit-task {
+  width: 100%;
+  height: 5rem;
+}
+.input_edit-task {
+width: 82%;
+}
+
+.container-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%
+}
+
+.new-task {
+  display: flex;
+  margin-bottom: 2rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10rem;
 }
 
 .task-list{
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  padding: 0 10rem;
 }
 
-.task{
-    border: 1px solid black;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+.task-item {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: -2px -2px 3px #FAFBFF,
+              3px 3px 3px rgba(22, 27, 29, 0.23);
+  align-items: center;
+  justify-content: space-between;
 }
 
-.task__button__delete{
-    color: red;
+
+.buttons{
+  display: flex;
+  gap: 0.5rem;
 }
-
-
