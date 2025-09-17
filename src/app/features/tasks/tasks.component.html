@@ -25,10 +25,8 @@
         class="input_edit-task"
         [type]="'textarea'"
         [name]="'edit-task'"
-        [(value)]="task.editText" 
-        [appAutoFocus]="task.editing()">
+        [(value)]="task.editText">
       </app-input>
-      {{ task.editing()}}
       <div class="buttons">
         <app-button 
           [label]="'save'" 

@@ -1,20 +1,12 @@
-import { Directive, ElementRef, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Directive, ElementRef, Input, effect, Signal, untracked, ViewChild, afterNextRender} from '@angular/core';
 
 @Directive({
   selector: '[appAutoFocus]'
 })
-export class appAutoFocus implements OnChanges{
-  @Input() appAutoFocus: boolean = false;
-  constructor(private el: ElementRef){}
+export class appAutoFocus {
 
-  ngOnChanges(changes: SimpleChanges){
-    if (changes['appAutoFocus']) {
-      if (this.appAutoFocus) {
-        queueMicrotask(() => this.el.nativeElement.focus());
-      } else {
-        this.el.nativeElement.blur();
-      }
-    }
+   @Input({ required: true }) appAutoFocus!: Signal<boolean>;
+
+  constructor(private el: ElementRef) {
   }
-
 }
