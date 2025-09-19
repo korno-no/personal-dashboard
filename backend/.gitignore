@@ -1,0 +1,5 @@
+node_modules/
+*.log
+.env
+database/tasks.db
+.DS_Store
