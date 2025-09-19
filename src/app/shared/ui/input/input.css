@@ -15,7 +15,43 @@
   /*for textarea*/
   resize: none;
 }
+
 .input:focus{
   box-shadow: inset -4px -4px 6px #FAFBFF,
               inset 5px 5px 5px rgba(22, 27, 29, 0.23);
 }
+
+.neu-checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.neu-checkbox input {
+  display: none;
+}
+
+.neu-checkbox span {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: #EFF2F9; 
+  display: inline-block;
+  position: relative;
+  box-shadow: inset -4px -4px 6px #FAFBFF,
+              inset 5px 5px 5px rgba(22, 27, 29, 0.23);
+  transition: all 0.3s ease;
+}
+
+.neu-checkbox input:checked + span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid var(--text-main-color);
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+}
+

@@ -17,8 +17,8 @@
 
   <div class="task-list">
 
-    @for(task of tasks; track $index){
-    <div class="task-item">
+    @for(task of sortedTasks(); track task.id){
+    <div class="task-item" [class]="{'task-item_done': task.isDone()}">
 
       @if(task.editing()){
       <app-input 
@@ -30,31 +30,42 @@
       <div class="buttons">
         <app-button 
           [label]="'save'" 
-          [disabled]="!task.text().trim() || !task.editText().trim() "
+          [disabled]="!task.editText().trim() "
           [theme]="'button_save'" 
-          (clicked)="onSaveEditTask($index)" >
+          (clicked)="onSaveEditTask(task.id)" >
         </app-button>
         <app-button 
           [label]="'cancel'" 
           [theme]="'button_cancel'" 
-          (clicked)="onCancelEditTask($index)" >
+          (clicked)="onCancelEditTask(task.id)" >
         </app-button>
       </div>
       }
       @else{
-        {{task.text()}}
-        <div class="buttons">
-        <app-button 
-          [label]="'delete'" 
-          [theme]="'button_delete'" 
-          (click)="onDeleteTask($index)" >
-        </app-button>
+        <app-input 
+          class="input_is-done"
+          [type]="'checkbox'"
+          [name]="'is-done'"
+          [(value)]="task.isDone" 
+        >
+        </app-input>
 
-        <app-button 
-          [label]="'edit'" 
-          [theme]="'button_edit'" 
-          (clicked)="onStartEditTask($index)" >
-        </app-button>
+        {{task.text()}}
+
+        <div class="buttons">
+          <app-button 
+            [label]="'delete'" 
+            [theme]="'button_delete'" 
+            (click)="onDeleteTask(task.id)"
+            [disabled]="task.isDone()" >
+          </app-button>
+
+          <app-button 
+            [label]="'edit'" 
+            [theme]="'button_edit'" 
+            (clicked)="onStartEditTask(task.id)" 
+            [disabled]="task.isDone()">
+          </app-button>
         </div>
       }
     </div>

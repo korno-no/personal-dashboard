@@ -8,8 +8,8 @@
   height: 5rem;
   margin-right: 2rem;
 }
-.input_edit-task {
-width: 82%;
+.input_edit-task {  
+  width: 100%;
 }
 
 .container-center {
@@ -48,4 +48,9 @@ width: 82%;
 .buttons{
   display: flex;
   gap: 0.5rem;
+}
+
+.task-item_done{
+  box-shadow: none;
+  border: 1px solid gainsboro;
 }

@@ -6,6 +6,20 @@
     (input)="onInput($event)" 
     >
   </textarea>
-} @else {
-  <input class="input" [type]="type"/>
+} @else if(type === 'checkbox') {
+  <label class="neu-checkbox">
+    <input class="{{type}}" 
+      [type]="type"
+      [name]="name"
+      (change)="onInput($event)"
+      />
+    <span></span>
+  </label>
+  
+} 
+@else  {
+  <input 
+    class="input input_{{type}}" 
+    [type]="type"
+    [name]="name"/>
 }
