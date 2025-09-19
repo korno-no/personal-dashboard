@@ -10,12 +10,18 @@ export class InputComponent {
 
   @Input() placeholder = '';
   @Input() type = '';
-  @Input() value = '';
+  @Input() value: string | boolean = '';
   @Input() name = '';
-  @Output() valueChange = new EventEmitter<string>()
+  @Output() valueChange = new EventEmitter<string | boolean>()
 
   onInput(event: Event) {
+    
     const target = event.target as HTMLInputElement;
-    this.valueChange.emit(target.value);
+
+    if (this.type === 'checkbox') {
+    this.valueChange.emit(target.checked); // boolean
+    } else{
+      this.valueChange.emit(target.value);
+    }
   }
 }
