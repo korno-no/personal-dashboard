@@ -86,20 +86,20 @@ router.put('/:id', async (req, res) => {
       data: updatedTask,
       message: 'Task updated successfully'
     });
-  } catch (error) {
-    console.error('Error updating task:', error);
-    if (error.message === 'Task not found') {
-      return res.status(404).json({
+    } catch (error) {
+      console.error('Error updating task:', error);
+      if (error.message === 'Task not found') {
+        return res.status(404).json({
+          success: false,
+          message: 'Task not found'
+        });
+      }
+      res.status(500).json({
         success: false,
-        message: 'Task not found'
+        message: 'Failed to update task',
+        error: error.message
       });
     }
-    res.status(500).json({
-      success: false,
-      message: 'Failed to update task',
-      error: error.message
-    });
-  }
 });
 
 // DELETE /api/tasks/:id - Delete a task

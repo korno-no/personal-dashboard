@@ -46,7 +46,8 @@
           class="input_is-done"
           [type]="'checkbox'"
           [name]="'is-done'"
-          [(value)]="task.isDone" 
+          [(checked)]="task.isDone" 
+          (change)="onSaveEditTask(task.id)"
         >
         </app-input>
 
