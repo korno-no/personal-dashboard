@@ -16,10 +16,15 @@
   </div>
 
   <div class="task-list">
+    <div class="buttons">
+      <app-tab-slider 
+        [tabs] = "['all', 'active', 'done']"
+        (selectedTab) = "selectedTab.set($event)"
+      ></app-tab-slider>
+    </div>
 
     @for(task of sortedTasks(); track task.id){
     <div class="task-item" [class]="{'task-item_done': task.isDone()}">
-
       @if(task.editing()){
       <app-input 
         class="input_edit-task"

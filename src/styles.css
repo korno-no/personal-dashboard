@@ -30,7 +30,15 @@ body{
 /* Regular */
 @font-face {
   font-family: 'Quicksand';
-  src: url('./app/assets/fonts/Quicksand/static/Quicksand-Light.ttf');
+  src: url('./app/assets/fonts/Quicksand/static/Quicksand-Regular.ttf');
   font-weight: 400;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./app/assets/fonts/Quicksand/static/Quicksand-Bold.ttf');
+  font-weight: 800;
   font-style: normal;
 }

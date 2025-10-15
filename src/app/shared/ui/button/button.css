@@ -25,9 +25,10 @@
 }
 
 button:disabled {
-  border: 1px solid gainsboro;
+  border: 1px solid #D2D6D9;
   box-shadow: none;
   cursor: not-allowed;
+  background-color: #e0e4e8;
 }
 
 .button_delete {

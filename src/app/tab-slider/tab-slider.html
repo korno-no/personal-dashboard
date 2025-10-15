@@ -1,0 +1,14 @@
+<div class="filters-tabs">
+  @for(tab of tabs; track $index){
+    <span 
+      #tabEl
+      class="tab"
+      [class.active-tab]="activeTab() === $index"
+      (click)="selectTab($index)">{{tab}}</span>
+  }
+  
+  <div class="slider"
+    [style.transform]="'translateX(' + sliderLeft() + 'px)'"
+    [style.width.px]="sliderWidth()">
+  </div>
+</div>

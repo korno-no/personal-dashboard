@@ -1,0 +1,38 @@
+.filters-tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  box-shadow: inset -2px -2px 3px #FAFBFF,
+              inset 3px 3px 3px rgba(22, 27, 29, 0.23);
+  border-radius: 0.5rem;
+  border: none;
+  position: relative;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.active-tab{
+  color: white;
+  opacity: 1;
+}
+
+.tab:hover {
+  opacity: 1;
+}
+
+.slider {
+  position: absolute;
+  height: 100%;
+  background-color: #0081A7;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease-in-out;
+  z-index: 0;
+}

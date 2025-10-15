@@ -39,6 +39,7 @@
   display: flex;
   width: 100%;
   border-radius: 1rem;
+  border: 1px solid transparent;
   box-shadow: -2px -2px 3px #FAFBFF,
               3px 3px 3px rgba(22, 27, 29, 0.23);
   align-items: center;
@@ -52,5 +53,6 @@
 
 .task-item_done{
   box-shadow: none;
-  border: 1px solid gainsboro;
+  border: 1px solid #D2D6D9;
+  background-color: #e0e4e8;
 }

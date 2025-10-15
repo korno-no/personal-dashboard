@@ -1,20 +1,23 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Button } from "../../shared/ui/button/button";
 import { InputComponent } from "../../shared/ui/input/input";
 import { Task } from '../../shared/models/task-model';
 import { TasksService } from '../../core/services/tasks-service';
+import { TabSlider } from "../../tab-slider/tab-slider";
 @Component({
   selector: 'app-tasks',
-  imports: [FormsModule, Button, InputComponent],
+  imports: [FormsModule, Button, InputComponent, TabSlider],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent implements OnInit {
-  
+ 
   private tasksService = inject(TasksService)
   tasks = signal<Task[]>([]);
   newTask = signal<string>('');
+
+  selectedTab = signal<number>(0);
 
   // init function => get existing tasks
   async ngOnInit() {
@@ -27,8 +30,20 @@ export class TasksComponent implements OnInit {
     }
   }
   
-  sortedTasks = computed(() =>
-    this.tasks().slice().sort((a, b) => Number(a.isDone()) - Number(b.isDone()))
+  sortedTasks = computed(() => {
+      //active
+       if(this.selectedTab() === 1){
+        return this.tasks().filter(t => t.isDone() === false);
+      }
+      //done
+      else if(this.selectedTab() === 2){
+        return this.tasks().filter(t => t.isDone() === true);
+      }
+      //false
+      else{
+        return this.tasks().slice().sort((a, b) => Number(a.isDone()) - Number(b.isDone()));
+      } 
+    }
   );
 
   // create new a task
@@ -107,6 +122,5 @@ export class TasksComponent implements OnInit {
       // TODO error toaster 
       console.error(err);
     }
-    
   }
 }
