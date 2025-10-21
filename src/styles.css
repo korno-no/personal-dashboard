@@ -17,6 +17,7 @@ body{
   font-size:1em;
   color: var(--text-main-color);
   background-color: #EFF2F9;
+  overflow-y: hidden;
 }
 
 /* Light */

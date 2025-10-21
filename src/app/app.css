@@ -1,7 +1,5 @@
 .header {
-  border: 1px black solid;
   padding: 1rem;
-  text-align: center;
 }
 
 .layout {
@@ -12,8 +10,6 @@
 .sidebar {
   width: 250px;
   padding: 1rem;
-  border: 1px black solid;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
 .main {

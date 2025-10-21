@@ -1,0 +1,12 @@
+.side-bar{
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid transparent;
+  box-shadow: -2px -2px 3px #FAFBFF,
+              3px 3px 3px rgba(22, 27, 29, 0.23);
+  align-items: center;
+  justify-content: space-between;
+}

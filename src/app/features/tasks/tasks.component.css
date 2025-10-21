@@ -8,6 +8,7 @@
   height: 5rem;
   margin-right: 2rem;
 }
+
 .input_edit-task {  
   width: 100%;
 }
@@ -25,12 +26,15 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  padding: 0 10rem;
+  padding: 0 2rem;
 }
 
 .task-list{
   width: 100%;
-  padding: 0 10rem;
+  padding: 0 2rem;
+  height: calc(100vh - 16rem);
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .task-item {
@@ -46,9 +50,15 @@
   justify-content: space-between;
 }
 
+.task-item:first-child{
+  margin-top: 1rem;
+}
+
 .buttons{
   display: flex;
   gap: 0.5rem;
+  align-self: flex-start;
+  padding: 0 2rem
 }
 
 .task-item_done{
