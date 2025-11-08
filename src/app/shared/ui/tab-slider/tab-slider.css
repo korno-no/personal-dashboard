@@ -1,6 +1,5 @@
 .filters-tabs {
   display: flex;
-  margin-bottom: 1rem;
   cursor: pointer;
   box-shadow: inset -2px -2px 3px #FAFBFF,
               inset 3px 3px 3px rgba(22, 27, 29, 0.23);
@@ -31,7 +30,7 @@
 .slider {
   position: absolute;
   height: 100%;
-  background-color: #0081A7;
+  background-color: var(--accent-color);
   border-radius: 0.5rem;
   transition: transform 0.3s ease-in-out;
   z-index: 0;

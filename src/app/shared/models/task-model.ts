@@ -5,6 +5,7 @@ export interface TaskDTO {
   id: string;
   text: string;
   isDone: boolean;
+  createdAt: string;
 }
 
 // model with signals
@@ -14,6 +15,7 @@ export interface Task {
   editText: WritableSignal<string>;
   editing: WritableSignal<boolean>;
   isDone: WritableSignal<boolean>;
+  createdAt: string;
 }
 
 // converter
@@ -24,5 +26,6 @@ export function createTaskFromDTO(dto: TaskDTO): Task {
     editText: signal(dto.text),
     editing: signal(false),
     isDone: signal(dto.isDone),
+    createdAt: dto.createdAt,
   };
 }

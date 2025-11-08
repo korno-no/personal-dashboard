@@ -1,0 +1,17 @@
+<div class="dropdown-container">
+  <div class="label">{{label}}</div>
+  <div class="dropdown">
+    <div class="dropdown-toggle" 
+      (click)="open = !open"
+      [class.open]="open"
+    >
+        {{selected}}
+        <span class="arrow" [class.open]="open">⌃</span>
+    </div>
+    <ul class="dropdown-menu" [class.open]="open" (click)="open = !open">
+      @for(value of values; track $index){
+      <li (click)="onSelect(value)">{{value}}</li>
+      }
+    </ul>
+  </div>
+</div>

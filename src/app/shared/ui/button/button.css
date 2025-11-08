@@ -1,5 +1,5 @@
 .button {
-  background-color: #EFF2F9;
+  background-color: var(--background-color);
   box-shadow: -2px -2px 3px #FAFBFF,
     3px 3px 3px rgba(22, 27, 29, 0.23);
   border-radius: 0.5rem;

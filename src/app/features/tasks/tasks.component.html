@@ -14,16 +14,22 @@
       (clicked)="onAddNewTask()" >
     </app-button>
   </div>
-  <div class="buttons">
+  <div class="buttons filters-group">
     <app-tab-slider 
       [tabs] = "['all', 'active', 'done']"
       (selectedTab) = "selectedTab.set($event)"
     ></app-tab-slider>
+    <app-dropdown 
+      [label]="'Sort by'"
+      [values]="['default', 'date', 'text']"
+      [selected]="sortBy()"
+      (newSelected)="onSortChange($event)"
+    ></app-dropdown>
   </div>
 
   <div class="task-list"> 
     <div class="scroll-conatiner">
-      @for(task of sortedTasks(); track task.id){
+      @for(task of processedTaskList(); track task.id){
         <div class="task-item" [class]="{'task-item_done': task.isDone()}">
           @if(task.editing()){
             <app-input 
@@ -33,18 +39,18 @@
               [(value)]="task.editText">
             </app-input>
             <div class="buttons">
-            <app-button 
-              [label]="'save'" 
-              [disabled]="!task.editText().trim() "
-              [theme]="'button_save'" 
-              (clicked)="onSaveEditTask(task.id)" >
-            </app-button>
-            <app-button 
-              [label]="'cancel'" 
-              [theme]="'button_cancel'" 
-              (clicked)="onCancelEditTask(task.id)" >
-            </app-button>
-          </div>
+              <app-button 
+                [label]="'save'" 
+                [disabled]="!task.editText().trim() "
+                [theme]="'button_save'" 
+                (clicked)="onSaveEditTask(task.id)" >
+              </app-button>
+              <app-button 
+                [label]="'cancel'" 
+                [theme]="'button_cancel'" 
+                (clicked)="onCancelEditTask(task.id)" >
+              </app-button>
+            </div>
           }
           @else{
             <app-input 
