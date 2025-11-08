@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -14,8 +14,18 @@ export class Dropdown {
   @Output() newSelected = new EventEmitter<string>()
   open = false
 
+  constructor(private eRef: ElementRef) {}
+
+
   onSelect(value: string){
     this.selected = value
     this.newSelected.emit(value)
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.open = false;
+    }
   }
 }
