@@ -33,14 +33,41 @@ function createTables() {
       )
     `;
 
-    db.run(createTasksTable, (err) => {
-      if (err) {
-        console.error('Error creating tasks table:', err.message);
-        reject(err);
-        return;
-      }
-      console.log('📋 Tasks table created/verified');
-      resolve();
+    // TODO: user_id later change to the NOT NULL and doo foreign key
+    const createHabitsTable =`
+      CREATE TABLE IF NOT EXISTS habits (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        disared_quantity INTEGER DEFAULT 1,
+        user_id TEXT
+      )
+    `;
+    
+    const createHabitChecksTable =`
+      CREATE TABLE IF NOT EXISTS habit_checks (
+        id INTEGER PRIMARY KEY,
+        habit_id integer REFERENCES habits,
+        date DATETIME NOT NULL,
+        done_quantity INTEGER DEFAULT 1
+      )
+    `;
+
+    db.serialize(() => {
+      db.run(createTasksTable, (err) => {
+        if (err) return reject(err);
+        console.log('📋 tasks table ready');
+      });
+
+      db.run(createHabitsTable, (err) => {
+        if (err) return reject(err);
+        console.log('💡 habits table ready');
+      });
+
+      db.run(createHabitChecksTable, (err) => {
+        if (err) return reject(err);
+        console.log('✅ habit_checks table ready');
+        resolve();
+      });
     });
   });
 }
