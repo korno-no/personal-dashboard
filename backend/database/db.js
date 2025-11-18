@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const dbPath = path.join(__dirname, 'tasks.db');
+const dbPath = path.join(__dirname, 'dashboard.db');
 let db;
 
 // Initialize database connection
@@ -23,138 +23,45 @@ function initDatabase() {
 // Create tables
 function createTables() {
   return new Promise((resolve, reject) => {
-    const createTasksTable = `
+
+     // TODO: user_id later change to the NOT NULL and doo foreign key
+    const queries = [`
       CREATE TABLE IF NOT EXISTS tasks (
         id TEXT PRIMARY KEY,
         text TEXT NOT NULL,
         isDone INTEGER DEFAULT 0,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `;
-
-    // TODO: user_id later change to the NOT NULL and doo foreign key
-    const createHabitsTable =`
-      CREATE TABLE IF NOT EXISTS habits (
-        id INTEGER PRIMARY KEY,
+      )`,
+      `CREATE TABLE IF NOT EXISTS habits (
+        id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         disared_quantity INTEGER DEFAULT 1,
-        user_id TEXT
-      )
-    `;
-    
-    const createHabitChecksTable =`
-      CREATE TABLE IF NOT EXISTS habit_checks (
-        id INTEGER PRIMARY KEY,
-        habit_id integer REFERENCES habits,
+        user_id TEXT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )`,
+      `CREATE TABLE IF NOT EXISTS habit_checks (
+        id TEXT PRIMARY KEY,
+        habit_id TEXT REFERENCES habits,
         date DATETIME NOT NULL,
         done_quantity INTEGER DEFAULT 1
-      )
-    `;
-
+      )`
+    ]
     db.serialize(() => {
-      db.run(createTasksTable, (err) => {
-        if (err) return reject(err);
-        console.log('📋 tasks table ready');
-      });
-
-      db.run(createHabitsTable, (err) => {
-        if (err) return reject(err);
-        console.log('💡 habits table ready');
-      });
-
-      db.run(createHabitChecksTable, (err) => {
-        if (err) return reject(err);
-        console.log('✅ habit_checks table ready');
-        resolve();
-      });
-    });
-  });
-}
-
-// Get all tasks
-function getTasks() {
-  return new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM tasks ORDER BY isDone ASC, createdAt DESC';
-    db.all(query, [], (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      // Transform the data to match frontend expectations
-      const tasks = rows.map(row => ({
-        id: row.id,
-        text: row.text,
-        isDone: Boolean(row.isDone),
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+      queries.forEach((q) => db.run(q, (err) => {
+        if (err) console.error('Error creating table:', err.message);
       }));
-      resolve(tasks);
+      resolve();
     });
   });
 }
 
-// Create a new task
-function createTask(taskData) {
-  return new Promise((resolve, reject) => {
-    const { text } = taskData;
-    if (!text || !text.trim()) {
-      reject(new Error('Task text is required'));
-      return;
-    }
-
-    const id = uuidv4();
-    const query = 'INSERT INTO tasks (id, text, isDone) VALUES (?, ?, ?)';
-    const values = [id, text.trim(), 0];
-
-    db.run(query, values, function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve({ id, text: text.trim(), isDone: false });
-    });
-  });
+function getDb() {
+  if (!db) throw new Error('Database not initialized');
+  return db;
 }
 
-// Update a task
-function updateTask(id, taskData) {
-  return new Promise((resolve, reject) => {
-    const { text, isDone } = taskData;
-    const query = 'UPDATE tasks SET text = ?, isDone = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?';
-    const values = [text, isDone ? 1 : 0, id];
-
-    db.run(query, values, function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      if (this.changes === 0) {
-        reject(new Error('Task not found'));
-        return;
-      }
-      resolve({ id, text, isDone: Boolean(isDone) });
-    });
-  });
-}
-
-// Delete a task
-function deleteTask(id) {
-  return new Promise((resolve, reject) => {
-    const query = 'DELETE FROM tasks WHERE id = ?';
-    db.run(query, [id], function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      if (this.changes === 0) {
-        reject(new Error('Task not found'));
-        return;
-      }
-      resolve({ id, deleted: true });
-    });
-  });
-}
 
 // Close database connection
 function closeDatabase() {
@@ -171,9 +78,6 @@ function closeDatabase() {
 
 module.exports = {
   initDatabase,
-  getTasks,
-  createTask,
-  updateTask,
-  deleteTask,
+  getDb,
   closeDatabase
 };

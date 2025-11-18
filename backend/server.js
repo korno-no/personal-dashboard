@@ -5,8 +5,9 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
 // Import database and routes
-const { initDatabase, getTasks, createTask, updateTask, deleteTask } = require('./database/db');
-const taskRoutes = require('./routes/tasks');
+const { initDatabase} = require('./database/db');
+const tasksRepo = require('./routes/tasks');
+const habitsRoutes = require('./routes/habits');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -20,7 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/tasks', taskRoutes);
+app.use('/api/tasks', tasksRepo);
+app.use('/api/habits', habitsRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -34,6 +36,7 @@ initDatabase()
       console.log(`🚀 Server running on http://localhost:${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
       console.log(`📝 Tasks API: http://localhost:${PORT}/api/tasks`);
+      console.log(`🎯 Habits API: http://localhost:${PORT}/api/habits`);
     });
   })
   .catch((error) => {
