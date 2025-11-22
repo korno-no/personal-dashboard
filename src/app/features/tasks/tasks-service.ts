@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Task, TaskDTO, createTaskFromDTO } from '../../shared/models/task-model';
+import { Task, TaskDTO, createTaskFromDTO } from './task-model';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({

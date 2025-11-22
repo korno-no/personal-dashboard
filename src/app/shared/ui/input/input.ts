@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, Output, Signal } from '@angular/core';
 export class InputComponent {
 
   @Input() placeholder = '';
+  @Input() id = '';
+  @Input() label = '';
   @Input() type = '';
   @Input() value: string = '';
   @Input() checked?: boolean;

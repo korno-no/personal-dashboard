@@ -55,3 +55,8 @@
   transform: translate(-50%, -60%) rotate(45deg);
 }
 
+.input_container{
+  display: flex;
+  gap: 0.5rem;
+}
+

@@ -2,8 +2,8 @@ import { Component, computed, effect, ElementRef, inject, OnInit, QueryList, sig
 import { FormsModule } from '@angular/forms';
 import { Button } from "../../shared/ui/button/button";
 import { InputComponent } from "../../shared/ui/input/input";
-import { Task } from '../../shared/models/task-model';
-import { TasksService } from '../../core/services/tasks-service';
+import { Task } from './task-model';
+import { TasksService } from './tasks-service';
 import { TabSlider } from "../../shared/ui/tab-slider/tab-slider";
 import { Dropdown } from "../../shared/ui/dropdown/dropdown";
 

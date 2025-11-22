@@ -19,8 +19,13 @@
   
 } 
 @else  {
-  <input 
-    class="input input_{{type}}" 
-    [type]="type"
-    [name]="name"/>
+  <div class="input_container">
+    <label for={{id}} class="input_label">{{label}}</label>
+    <input 
+      class="input input_{{type}}" 
+      [type]="type"
+      [name]="name"
+      [id]="id"
+      />
+  </div>
 }
