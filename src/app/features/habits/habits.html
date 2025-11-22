@@ -1,0 +1,50 @@
+<header class="panel">
+  <h1>Habits Tracker</h1>
+  <app-button [label]="'Add new habit'"></app-button>
+</header>
+
+
+<div class="week-selector panel">
+  <app-button [label]="'Previous Week'"></app-button>
+  <div>Current week </div>
+  <app-button [label]="'Next Week'"></app-button>
+</div>
+
+<table class="habits-list panel">
+
+    <tr  class="habits-row habits-header">
+      <th class="habit-name">Habit</th>
+      <th class="habit-day">Mon</th>
+      <th class="habit-day">Tue</th>
+      <th class="habit-day">Wed</th>
+      <th class="habit-day">Thu</th>
+      <th class="habit-day">Fri</th>
+      <th class="habit-day">Sat</th>
+      <th class="habit-day">Sun</th>
+    </tr>
+
+  <tr class="habits-row habit-item">
+    <td class="habit-name">Drink water</td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+  </tr>
+  <tr class="habits-row habit-item">
+    <td class="habit-name">Read 20 min</td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+    <td><app-input [type]="'checkbox'"></app-input></td>
+  </tr>
+</table>
+
+<div>
+  <app-input [formControl]="newHabit" id="new-habit" label="New Habit" placeholder="Enter a new habit"></app-input>
+  <app-button [label]="'Add Habit'" (click)="addHabit()"></app-button>
+  <app-button [label]="'Cancel'"></app-button>
+</div>
