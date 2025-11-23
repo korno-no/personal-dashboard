@@ -3,29 +3,37 @@
     class="input"
     [value]="value" 
     [name]="name"
-    (input)="onInput($event)" 
-    >
-  </textarea>
-} @else if(type === 'checkbox') {
+    [disabled]="disabled"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
+    [placeholder]="placeholder"
+  ></textarea>
+}@else if(type === 'checkbox') {
   <label class="neu-checkbox">
     <input class="{{type}}" 
       [type]="type"
       [name]="name"
-      [checked]="checked" 
+      [checked]="checked"
+      [disabled]="disabled"
       (change)="onInput($event)"
-      />
+      (blur)="onTouched()"
+    />
     <span></span>
   </label>
-  
-} 
-@else  {
+}
+@else {
   <div class="input_container">
-    <label for={{id}} class="input_label">{{label}}</label>
+    <label [for]="id" class="input_label">{{label}}</label>
     <input 
       class="input input_{{type}}" 
       [type]="type"
       [name]="name"
       [id]="id"
-      />
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (blur)="onTouched()"
+      [placeholder]="placeholder"
+    />
   </div>
 }
