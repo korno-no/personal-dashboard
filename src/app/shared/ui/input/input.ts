@@ -1,82 +1,31 @@
-import {
-  Component,
-  Input,
-  forwardRef
-} from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { Component, EventEmitter, Input, Output, Signal } from '@angular/core';
 
 @Component({
   selector: 'app-input',
+  imports: [],
   templateUrl: './input.html',
-  styleUrl: './input.css',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
-      multi: true
-    }
-  ]
+  styleUrl: './input.css'
 })
-export class InputComponent implements ControlValueAccessor {
+export class InputComponent {
 
   @Input() placeholder = '';
-  @Input() id = '';
   @Input() label = '';
-  @Input() type = ''; // text | textarea | checkbox
+  @Input() type = '';
+  @Input() value: string = '';
+  @Input() checked?: boolean;
   @Input() name = '';
+  
+  @Output() valueChange = new EventEmitter<string>()
+  @Output() checkedChange = new EventEmitter<boolean>()
 
-  value: any = '';
-  checked: boolean = false;
-
-  disabled = false;
-
-  // callbacks
-  private onChange = (value: any) => {};
-  private _onTouched = () => {};
-
-  onTouched() {
-    this._onTouched(); 
-  }
-
-  // Angular writes value → UI
-  writeValue(value: any): void {
-    if (this.type === 'checkbox') {
-      this.checked = !!value;
-    } else {
-      this.value = value ?? '';
-    }
-  }
-
-  // Angular registers change fn
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  // Angular registers touched fn
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  // disabled state
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  // UI → Angular
   onInput(event: Event) {
+    
     const target = event.target as HTMLInputElement;
 
     if (this.type === 'checkbox') {
-      this.checked = target.checked;
-      this.onChange(this.checked);
-    } else {
-      this.value = target.value;
-      this.onChange(this.value);
+    this.checkedChange.emit(target.checked); // boolean
+    } else{
+      this.valueChange.emit(target.value);
     }
-
-    this.onTouched();
   }
 }

@@ -1,12 +1,11 @@
 <div class="container-center">
   <div class="new-task">
-    <app-input 
-      class="input_new-task"
-      [type]="'textarea'"
-      [name]="'new-task'"
-      [(value)]="newTask" 
-      >
-    </app-input>
+    <textarea type="text"
+      class="input input_new-task"
+      type="textarea"
+      name="new-task"
+      [(ngModel)]="newTask" 
+    ></textarea>
     <app-button 
       [label]="'new task'" 
       [disabled]="!newTask().trim()"
@@ -32,12 +31,12 @@
       @for(task of processedTaskList(); track task.id){
         <div class="task-item" [class]="{'task-item_done': task.isDone()}">
           @if(task.editing()){
-            <app-input 
-              class="input_edit-task"
-              [type]="'textarea'"
-              [name]="'edit-task'"
-              [(value)]="task.editText">
-            </app-input>
+            <textarea type="text"
+              class="input input_edit-task"
+              type="textarea"
+              name="edit-task"
+              [(ngModel)]="task.editText" 
+            ></textarea>
             <div class="buttons">
               <app-button 
                 [label]="'save'" 
@@ -53,14 +52,15 @@
             </div>
           }
           @else{
-            <app-input 
-              class="input_is-done"
-              [type]="'checkbox'"
-              [name]="'is-done'"
-              [(checked)]="task.isDone" 
-              (change)="onSaveEditTask(task.id)"
-            >
-            </app-input>
+            <label class="checkbox">
+              <input
+                type="checkbox"
+                name="is-done"
+                [(ngModel)]="task.isDone" 
+                (change)="onSaveEditTask(task.id)"
+                />
+              <span></span>
+            </label>
             {{task.text()}}
             <div class="buttons">
               <app-button 
