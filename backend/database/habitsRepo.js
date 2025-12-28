@@ -15,10 +15,9 @@ function getHabits() {
       const habits = rows.map(row => ({
         id: row.id,
         name: row.name,
-        desiredQuantity: row.disared_quantity || 1,
+        desiredQuantity: row.desired_quantity || 1,
         userId: row.user_id,
         createdAt: row.createdAt,
-        updatedAt: row.updatedAt
       }));
       resolve(habits);
     });
@@ -30,24 +29,24 @@ function createHabit(habitData) {
   const db = getDb();
   return new Promise((resolve, reject) => {
     const { name, desiredQuantity } = habitData;
+
     if (!name || !name.trim()) {
       reject(new Error('Habit name is required'));
       return;
     }
-
     const id = uuidv4();
-    const query = 'INSERT INTO habits (id, name, disared_quantity) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO habits (id, name, desired_quantity) VALUES (?, ?, ?)';
     const values = [id, name.trim(), desiredQuantity || 1];
 
-    db.run(query, values, function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
+    try {
+      db.prepare(query).run(values);
       resolve({ id, name: name.trim(), desiredQuantity: desiredQuantity || 1 });
-    });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
+
 
 // Delete a habit
 function deleteHabit(id) {

@@ -9,7 +9,7 @@ import { Dropdown } from "../../shared/ui/dropdown/dropdown";
 
 @Component({
   selector: 'app-tasks',
-  imports: [FormsModule, Button, InputComponent, TabSlider, Dropdown],
+  imports: [FormsModule, Button, TabSlider, Dropdown],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })

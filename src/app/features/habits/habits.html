@@ -150,11 +150,11 @@
 <div>
   <label for="newHabit">Name: </label>
   <input 
-    [formControl]="newHabit"
+    [(ngModel)]="newHabit"
     type="text"
     class="input input_edit-task"
     name="newHabit" 
   >
-  <app-button [label]="'Add Habit'" (click)="addHabit()"></app-button>
+  <app-button [label]="'Add Habit'" (click)="createHabit()"></app-button>
   <app-button [label]="'Cancel'"></app-button>
 </div>

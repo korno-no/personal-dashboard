@@ -36,10 +36,8 @@ function createTables() {
       `CREATE TABLE IF NOT EXISTS habits (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
-        disared_quantity INTEGER DEFAULT 1,
-        user_id TEXT,
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        desired_quantity INTEGER DEFAULT 1,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )`,
       `CREATE TABLE IF NOT EXISTS habit_checks (
         id TEXT PRIMARY KEY,

@@ -29,7 +29,7 @@ async function createHabitHandler(req, res) {
       });
     }
 
-    const newHabit = await createHabit({ name: name.trim(), desiredQuantity });
+    const newHabit = await createHabit({ name: name.trim(), desiredQuantity: desiredQuantity });
     res.status(201).json({
       success: true,
       data: newHabit,
