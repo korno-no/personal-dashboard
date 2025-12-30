@@ -1,6 +1,6 @@
 const { getTasks, createTask, updateTask, deleteTask } = require('../database/tasksRepo');
 
-async function getAllTasks(req, res) {
+async function getAllTasksHandler(req, res) {
   try {
     const tasks = await getTasks();
     res.json({
@@ -18,7 +18,7 @@ async function getAllTasks(req, res) {
   }
 }
 
-async function getTaskById(req, res) {
+async function getTaskByIdHandler(req, res) {
   try {
     const { id } = req.params;
     const tasks = await getTasks();
@@ -157,8 +157,8 @@ async function deleteTaskHandler(req, res) {
 }
 
 module.exports = {
-  getAllTasks,
-  getTaskById,
+  getAllTasksHandler,
+  getTaskByIdHandler,
   createTaskHandler,
   updateTaskHandler,
   deleteTaskHandler

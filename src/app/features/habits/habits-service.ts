@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Habit } from './habit-model';
+import { Observable } from 'rxjs';  
+import { Response } from '../../shared/models/responce';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +11,15 @@ export class HabitsService {
 
   constructor(private http: HttpClient) {}
 
-  getHabits() {
-    return this.http.get('/api/habits');
+  getHabits(): Observable<Response<Habit[]>> {
+    return this.http.get<Response<Habit[]>>('/api/habits');
   }
 
-  createHabit(habit: Habit) {
+  getHabitsWithChecks(): Observable<Response<Habit[]>> {
+    return this.http.get<Response<Habit[]>>('/api/habits/checks');
+  }
+
+  createHabit(habit: { name: string; desiredQuantity: number }) {
     return this.http.post('/api/habits', habit);
   }
 

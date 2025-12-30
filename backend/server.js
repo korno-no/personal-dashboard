@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // Import database and routes
 const { initDatabase} = require('./database/db');
-const tasksRepo = require('./routes/tasks');
+const tasksRoutes = require('./routes/tasks');
 const habitsRoutes = require('./routes/habits');
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/tasks', tasksRepo);
+app.use('/api/tasks', tasksRoutes);
 app.use('/api/habits', habitsRoutes);
 
 // Health check endpoint

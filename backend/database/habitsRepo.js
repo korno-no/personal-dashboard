@@ -16,13 +16,61 @@ function getHabits() {
         id: row.id,
         name: row.name,
         desiredQuantity: row.desired_quantity || 1,
-        userId: row.user_id,
         createdAt: row.createdAt,
       }));
       resolve(habits);
     });
   });
 }
+// Get all habits with their checks
+function getHabitsWithChecks() {
+  const db = getDb();
+
+  return new Promise((resolve, reject) => {
+    const query = `
+      SELECT
+        h.id AS habit_id,
+        h.name,
+        h.desired_quantity,
+        h.createdAt,
+        hc.id AS check_id,
+        hc.date,
+        hc.done_quantity
+      FROM habits h
+      LEFT JOIN habit_checks hc ON hc.habit_id = h.id
+      ORDER BY h.createdAt DESC, hc.date DESC
+    `;
+
+    db.all(query, [], (err, rows) => {
+      if (err) return reject(err);
+
+      const map = new Map();
+
+      rows.forEach(row => {
+        if (!map.has(row.habit_id)) {
+          map.set(row.habit_id, {
+            id: row.habit_id,
+            name: row.name,
+            desiredQuantity: row.desired_quantity || 1,
+            createdAt: row.createdAt,
+            checks: []
+          });
+        }
+
+        if (row.check_id) {
+          map.get(row.habit_id).checks.push({
+            id: row.check_id,
+            date: row.date,
+            doneQuantity: row.done_quantity || 1
+          });
+        }
+      });
+
+      resolve([...map.values()]);
+    });
+  });
+}
+
 
 // Create a new habit
 function createHabit(habitData) {
@@ -38,12 +86,18 @@ function createHabit(habitData) {
     const query = 'INSERT INTO habits (id, name, desired_quantity) VALUES (?, ?, ?)';
     const values = [id, name.trim(), desiredQuantity || 1];
 
-    try {
-      db.prepare(query).run(values);
-      resolve({ id, name: name.trim(), desiredQuantity: desiredQuantity || 1 });
-    } catch (err) {
-      reject(err);
-    }
+    db.run(query, values, function(err) {
+      if (err) {
+        console.error('SQLITE ERROR:', err);
+        reject(err);
+        return;
+      }
+      resolve({
+        id,
+        name: name.trim(),
+        desiredQuantity: Number(desiredQuantity) || 1
+      });
+    });
   });
 }
 
@@ -121,5 +175,5 @@ function getHabitChecks(habitId) {
   });
 }
 
-module.exports = { getHabits, createHabit, deleteHabit, addHabitCheck, getHabitChecks };
+module.exports = { getHabits, getHabitsWithChecks, createHabit, deleteHabit, addHabitCheck, getHabitChecks };
 

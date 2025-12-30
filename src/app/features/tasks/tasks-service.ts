@@ -14,7 +14,7 @@ export class TasksService {
   async getTasks(): Promise<Task[]>  {
     try{
       const response = await lastValueFrom(
-        this.http.get<{ success: boolean; data: TaskDTO[] }>('http://localhost:3001/api/tasks')
+        this.http.get<{ success: boolean; data: TaskDTO[] }>('/api/tasks')
       );
       
       if (!response.success)throw new Error("Backend returned success = false");
@@ -31,7 +31,7 @@ export class TasksService {
     try{
       const response = await lastValueFrom(
         this.http.post<{ success: boolean; data: TaskDTO }>(
-        'http://localhost:3001/api/tasks',
+        '/api/tasks',
         { text }
         )
       );
@@ -52,7 +52,7 @@ export class TasksService {
     try{
       const response = await lastValueFrom(
       this.http.put<{success: boolean; data: TaskDTO,}>(
-          `http://localhost:3001/api/tasks/${task.id}`,
+          `/api/tasks/${task.id}`,
           { 
             text: task.editText(),
             isDone: task.isDone()
@@ -74,7 +74,7 @@ export class TasksService {
     try{
       const response = await lastValueFrom(
         this.http.delete<{ success: boolean }>(
-          `http://localhost:3001/api/tasks/${id}`
+          `/api/tasks/${id}`
         )
       );
       if (!response.success) throw new Error("Backend returned success = false");

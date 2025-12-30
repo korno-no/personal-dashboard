@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getAllHabits,
+  getAllHabitsHandler,
+  getHabitsWithChecksHandler,
   createHabitHandler,
   deleteHabitHandler,
   addHabitCheckHandler,
@@ -9,7 +10,10 @@ const {
 } = require('../controllers/habitsController');
 
 // GET /api/habits - Get all habits
-router.get('/', getAllHabits);
+router.get('/', getAllHabitsHandler);
+
+// GET /api/habits/checks - Get habits with checks
+router.get('/checks', getHabitsWithChecksHandler);
 
 // POST /api/habits - Create a new habit
 router.post('/', createHabitHandler);
@@ -21,7 +25,7 @@ router.delete('/:id', deleteHabitHandler);
 router.post('/checks', addHabitCheckHandler);
 
 // GET /api/habits/checks - Get habit checks (optional habitId query param)
-router.get('/checks', getHabitChecksHandler);
+//router.get('/checks', getHabitChecksHandler);
 
 module.exports = router;
 

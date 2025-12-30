@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getAllTasks,
-  getTaskById,
+  getAllTasksHandler,
+  getTaskByIdHandler,
   createTaskHandler,
   updateTaskHandler,
   deleteTaskHandler
 } = require('../controllers/tasksController');
 
 // GET /api/tasks - Get all tasks
-router.get('/', getAllTasks);
+router.get('/', getAllTasksHandler);
 
 // GET /api/tasks/:id - Get a specific task
-router.get('/:id', getTaskById);
+router.get('/:id', getTaskByIdHandler);
 
 // POST /api/tasks - Create a new task
 router.post('/', createTaskHandler);

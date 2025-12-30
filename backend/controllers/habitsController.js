@@ -1,6 +1,6 @@
-const { getHabits, createHabit, deleteHabit, addHabitCheck, getHabitChecks } = require('../database/habitsRepo');
+const { getHabits,getHabitsWithChecks, createHabit, deleteHabit, addHabitCheck, getHabitChecks } = require('../database/habitsRepo');
 
-async function getAllHabits(req, res) {
+async function getAllHabitsHandler(req, res) {
   try {
     const habits = await getHabits();
     res.json({
@@ -13,6 +13,24 @@ async function getAllHabits(req, res) {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch habits',
+      error: error.message
+    });
+  }
+}
+
+async function getHabitsWithChecksHandler(req, res) {
+  try {
+    const habits = await getHabitsWithChecks();
+    res.json({
+      success: true,
+      data: habits,
+      count: habits.length
+    });
+  } catch (error) {
+    console.error('Error fetching habits with checks:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch habits with checks',
       error: error.message
     });
   }
@@ -124,7 +142,8 @@ async function getHabitChecksHandler(req, res) {
 }
 
 module.exports = {
-  getAllHabits,
+  getAllHabitsHandler,
+  getHabitsWithChecksHandler,
   createHabitHandler,
   deleteHabitHandler,
   addHabitCheckHandler,
