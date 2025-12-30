@@ -20,7 +20,7 @@ async function getAllHabitsHandler(req, res) {
 
 async function getHabitsWithChecksHandler(req, res) {
   try {
-    const habits = await getHabitsWithChecks();
+    const habits = await getHabitsWithChecks(req.query.startDate);
     res.json({
       success: true,
       data: habits,

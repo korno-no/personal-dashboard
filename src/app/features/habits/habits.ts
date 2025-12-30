@@ -18,19 +18,14 @@ export class Habits implements OnInit {
   newHabit = '';
   habits: Habit[] = [];
 
-  ngOnInit(): void {
-    this.habitsService.getHabits().subscribe(habits => {
-      console.log("Habits:", habits);
-      this.habits = habits.data;
-    });
-    
-    this.habitsService.getHabitsWithChecks().subscribe(habitsWithChecks => {
-      console.log("Habits with checks:", habitsWithChecks);
-    });
-  }
+  ngOnInit(): void {}
+  
 
-  onWeekChange(firstDayOfWeek: Date) {
-    console.log("Selected week starting on: ", firstDayOfWeek);
+  onWeekChange(startDate: Date) {
+    this.habitsService.getHabitsWithChecks(startDate).subscribe(habits => {
+        console.log("Habits with checks:", habits);
+        this.habits = habits.data;
+      });
   }
 
   createHabit() {

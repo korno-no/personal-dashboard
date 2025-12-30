@@ -23,8 +23,11 @@ function getHabits() {
   });
 }
 // Get all habits with their checks
-function getHabitsWithChecks() {
+function getHabitsWithChecks(startDate) {
   const db = getDb();
+  const start = new Date(startDate);
+  const end = new Date(startDate);
+  end.setDate(end.getDate() + 6);
 
   return new Promise((resolve, reject) => {
     const query = `
@@ -37,15 +40,21 @@ function getHabitsWithChecks() {
         hc.date,
         hc.done_quantity
       FROM habits h
-      LEFT JOIN habit_checks hc ON hc.habit_id = h.id
-      ORDER BY h.createdAt DESC, hc.date DESC
-    `;
+      LEFT JOIN habit_checks hc
+        ON hc.habit_id = h.id
+        AND hc.date BETWEEN ? AND ?
+      ORDER BY h.createdAt DESC, hc.date ASC;
 
-    db.all(query, [], (err, rows) => {
+      `;
+
+    db.all(query, [ 
+      start.toISOString().split('T')[0],
+      end.toISOString().split('T')[0]
+    ], (err, rows) => {
+
       if (err) return reject(err);
 
       const map = new Map();
-
       rows.forEach(row => {
         if (!map.has(row.habit_id)) {
           map.set(row.habit_id, {
@@ -53,16 +62,19 @@ function getHabitsWithChecks() {
             name: row.name,
             desiredQuantity: row.desired_quantity || 1,
             createdAt: row.createdAt,
-            checks: []
+            checks: [],
+            weekChecks: Array(7).fill(false)
           });
         }
-
         if (row.check_id) {
           map.get(row.habit_id).checks.push({
             id: row.check_id,
             date: row.date,
             doneQuantity: row.done_quantity || 1
           });
+          const checkDate = new Date(row.date);
+          const dayIndex = checkDate.getDay();
+          map.get(row.habit_id).weekChecks[dayIndex] = true;
         }
       });
 

@@ -22,129 +22,22 @@
     <!-- 
                 [(ngModel)]="task.isDone" 
                 (change)="onSaveEditTask(task.id)" -->
+  @for(habit of habits;  track $index){
   <tr class="habits-row habit-item">
-    <td class="habit-name">Drink water</td>
-    <td>    
+    <td class="habit-name">{{ habit.name }}</td>
+    @for(check of habit.weekChecks;  track $index){
+    <td>
       <label class="checkbox">
         <input
+          [(ngModel)]="habit.weekChecks[$index]"
           type="checkbox"
           name="is-done"
           />
         <span></span>
       </label>
     </td>
-    <td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td>
-    <td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td>
-  </tr>
-  <tr class="habits-row habit-item">
-    <td class="habit-name">Read 20 min</td>
-    <td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td>
-    <td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td><td>    
-      <label class="checkbox">
-        <input
-          type="checkbox"
-          name="is-done"
-          />
-        <span></span>
-      </label>
-    </td>
-  </tr>
+    }
+  }
 </table>
 
 <div>

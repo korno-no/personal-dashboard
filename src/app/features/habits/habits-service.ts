@@ -15,8 +15,12 @@ export class HabitsService {
     return this.http.get<Response<Habit[]>>('/api/habits');
   }
 
-  getHabitsWithChecks(): Observable<Response<Habit[]>> {
-    return this.http.get<Response<Habit[]>>('/api/habits/checks');
+  getHabitsWithChecks(startDate: Date): Observable<Response<Habit[]>> {
+    return this.http.get<Response<Habit[]>>('/api/habits/checks', {
+      params: {
+        startDate: startDate.toISOString().split('T')[0],
+      }
+    });
   }
 
   createHabit(habit: { name: string; desiredQuantity: number }) {

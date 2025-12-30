@@ -1,5 +1,5 @@
 <div class="week-selector panel">
   <app-button [label]="'Previous Week'" (clicked)="onWeekChange('-')"></app-button>
-  <div>Current week {{this.selectedWeekFirstDay | date: 'dd/MM/yyyy'}}</div>
+  <div>Current week {{this.startDate | date: 'dd/MM/yyyy'}}</div>
   <app-button [label]="'Next Week'" (clicked)="onWeekChange('+')"></app-button>
 </div>
