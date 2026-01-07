@@ -1,5 +1,4 @@
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 const { getDb } = require('./db');
 
 
@@ -37,15 +36,15 @@ function createTask(taskData) {
       return;
     }
 
-    const id = uuidv4();
-    const query = 'INSERT INTO tasks (id, text, isDone) VALUES (?, ?, ?)';
-    const values = [id, text.trim(), 0];
+    const query = 'INSERT INTO tasks (text, isDone) VALUES (?, ?)';
+    const values = [text.trim(), 0];
 
     db.run(query, values, function(err) {
       if (err) {
         reject(err);
         return;
       }
+      const id = this.lastID;
       resolve({ id, text: text.trim(), isDone: false });
     });
   });

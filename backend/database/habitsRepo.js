@@ -1,5 +1,4 @@
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 const { getDb } = require('./db');
 
 // Get all habits
@@ -32,16 +31,16 @@ function getHabitsWithChecks(startDate) {
   return new Promise((resolve, reject) => {
     const query = `
       SELECT
-        h.id AS habit_id,
-        h.name,
-        h.desired_quantity,
-        h.createdAt,
-        hc.id AS check_id,
-        hc.date,
-        hc.done_quantity
+          h.id AS habit_id,
+          h.name,
+          h.desired_quantity,
+          h.createdAt,
+          hc.id AS check_id,
+          hc.date,
+          hc.done_quantity
       FROM habits h
       LEFT JOIN habit_checks hc
-        ON hc.habit_id = h.id
+          ON hc.habit_id = h.id
         AND hc.date BETWEEN ? AND ?
       ORDER BY h.createdAt DESC, hc.date ASC;
 
@@ -74,7 +73,7 @@ function getHabitsWithChecks(startDate) {
           });
           const checkDate = new Date(row.date);
           const dayIndex = checkDate.getDay();
-          map.get(row.habit_id).weekChecks[dayIndex] = true;
+          map.get(row.habit_id).weekChecks[dayIndex] = row.done_quantity > 0;
         }
       });
 
@@ -94,9 +93,8 @@ function createHabit(habitData) {
       reject(new Error('Habit name is required'));
       return;
     }
-    const id = uuidv4();
-    const query = 'INSERT INTO habits (id, name, desired_quantity) VALUES (?, ?, ?)';
-    const values = [id, name.trim(), desiredQuantity || 1];
+    const query = 'INSERT INTO habits (name, desired_quantity) VALUES (?, ?)';
+    const values = [name.trim(), desiredQuantity || 1];
 
     db.run(query, values, function(err) {
       if (err) {
@@ -104,6 +102,7 @@ function createHabit(habitData) {
         reject(err);
         return;
       }
+      const id = this.lastID;
       resolve({
         id,
         name: name.trim(),
@@ -114,78 +113,36 @@ function createHabit(habitData) {
 }
 
 
-// Delete a habit
-function deleteHabit(id) {
-  const db = getDb();
-  return new Promise((resolve, reject) => {
-    const query = 'DELETE FROM habits WHERE id = ?';
-    db.run(query, [id], function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      if (this.changes === 0) {
-        reject(new Error('Habit not found'));
-        return;
-      }
-      resolve({ id, deleted: true });
-    });
-  });
-}
-
 // Add a habit check
-function addHabitCheck(checkData) {
+function updateHabitCheck(checkData) {
   const db = getDb();
   return new Promise((resolve, reject) => {
-    const { habitId, date, doneQuantity } = checkData;
-    if (!habitId) {
+    const { id, date, quantity } = checkData;
+    if (!id) {
       reject(new Error('Habit ID is required'));
       return;
     }
-
-    const id = uuidv4();
-    const query = 'INSERT INTO habit_checks (id, habit_id, date, done_quantity) VALUES (?, ?, ?, ?)';
-    const values = [id, habitId, date || new Date().toISOString(), doneQuantity || 1];
+    const query = `INSERT INTO habit_checks (habit_id, date, done_quantity)
+                    VALUES (?, ?, ?)
+                    ON CONFLICT(habit_id, date)
+                    DO UPDATE SET done_quantity =
+                    CASE
+                      WHEN habit_checks.done_quantity = 1 THEN 0
+                      ELSE 1
+                    END;`;
+    const values = [id, date, quantity || 1];
 
     db.run(query, values, function(err) {
       if (err) {
         reject(err);
         return;
       }
-      resolve({ id, habitId, date: date || new Date().toISOString(), doneQuantity: doneQuantity || 1 });
+      const id_check = this.lastID;
+      resolve({ id_check, id, date: date});
     });
   });
 }
 
-// Get habit checks
-function getHabitChecks(habitId) {
-  const db = getDb();
-  return new Promise((resolve, reject) => {
-    let query = 'SELECT * FROM habit_checks';
-    let params = [];
-    
-    if (habitId) {
-      query += ' WHERE habit_id = ?';
-      params = [habitId];
-    }
-    
-    query += ' ORDER BY date DESC';
-    
-    db.all(query, params, (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      const checks = rows.map(row => ({
-        id: row.id,
-        habitId: row.habit_id,
-        date: row.date,
-        doneQuantity: row.done_quantity || 1
-      }));
-      resolve(checks);
-    });
-  });
-}
 
-module.exports = { getHabits, getHabitsWithChecks, createHabit, deleteHabit, addHabitCheck, getHabitChecks };
+module.exports = { getHabits, getHabitsWithChecks, createHabit, updateHabitCheck };
 

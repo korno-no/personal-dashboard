@@ -107,21 +107,21 @@ export class TasksComponent implements OnInit {
   async onSaveEditTask(id: string){
     //check is input empty
     const task = this.tasks().find(t => t.id === id);
-    if (!task || !task.text().trim()) return; 
-    else{
-      try{
-        const result = await this.tasksService.updateTask(task)
-        this.tasks.update( tasks => 
-          tasks.map(task => 
-            task.id === result.id
-            ? result
-            : task
-          )
-        )
-      } catch(err) {
-        // TODO error toaster 
-        console.error(err);
-      }
+    if (!task || !task.text().trim()) return;
+    try { 
+      const result = await this.tasksService.updateTask(task)
+      this.tasks.update(tasks =>
+        tasks.map(t => {
+          if (t.id !== id) return t;
+            return {
+              ...t,
+              ...result,
+              editing: signal(false)
+            };
+        }));
+    } catch (err) {
+      // TODO error toaster 
+      console.error(err);
     }
   }
 

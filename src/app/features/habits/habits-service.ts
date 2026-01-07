@@ -11,16 +11,9 @@ export class HabitsService {
 
   constructor(private http: HttpClient) {}
 
+  /* Habits */
   getHabits(): Observable<Response<Habit[]>> {
     return this.http.get<Response<Habit[]>>('/api/habits');
-  }
-
-  getHabitsWithChecks(startDate: Date): Observable<Response<Habit[]>> {
-    return this.http.get<Response<Habit[]>>('/api/habits/checks', {
-      params: {
-        startDate: startDate.toISOString().split('T')[0],
-      }
-    });
   }
 
   createHabit(habit: { name: string; desiredQuantity: number }) {
@@ -29,6 +22,22 @@ export class HabitsService {
 
   deleteHabit(id: string) {
     return this.http.delete(`/api/habits/${id}`);
+  }
+
+  /* Habit Checks */
+  getHabitsWithChecks(startDate: Date): Observable<Response<Habit[]>> {
+    return this.http.get<Response<Habit[]>>('/api/habits/checks', {
+      params: {
+        startDate: startDate.toLocaleDateString(),
+      }
+    });
+  }
+
+  updateHabitCheck(habitId: string, date: Date, quantity: number) {
+    return this.http.put(`/api/habits/${habitId}/checks`, {
+      date: date.toISOString().split('T')[0],
+      quantity
+    });
   }
 
 }

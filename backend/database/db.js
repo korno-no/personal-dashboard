@@ -1,6 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 
 const dbPath = path.join(__dirname, 'dashboard.db');
 let db;
@@ -27,23 +26,24 @@ function createTables() {
      // TODO: user_id later change to the NOT NULL and doo foreign key
     const queries = [`
       CREATE TABLE IF NOT EXISTS tasks (
-        id TEXT PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         text TEXT NOT NULL,
         isDone INTEGER DEFAULT 0,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )`,
       `CREATE TABLE IF NOT EXISTS habits (
-        id TEXT PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         desired_quantity INTEGER DEFAULT 1,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )`,
       `CREATE TABLE IF NOT EXISTS habit_checks (
-        id TEXT PRIMARY KEY,
-        habit_id TEXT REFERENCES habits,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        habit_id INTEGER REFERENCES habits,
         date DATETIME NOT NULL,
-        done_quantity INTEGER DEFAULT 1
+        done_quantity INTEGER DEFAULT 1,
+        UNIQUE(habit_id, date)
       )`
     ]
     db.serialize(() => {

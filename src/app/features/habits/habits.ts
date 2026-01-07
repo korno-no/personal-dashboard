@@ -14,18 +14,33 @@ import { FormsModule } from '@angular/forms';
 })
 export class Habits implements OnInit {
 
+  firstDayOfWeek: number = 0; // 1 = Monday, 0 = Sunday
+  startDate!: Date; 
   private habitsService = inject(HabitsService);
   newHabit = '';
   habits: Habit[] = [];
 
+
   ngOnInit(): void {}
   
+  getHabitsWithChecks() {
+    this.habitsService.getHabitsWithChecks(this.startDate).subscribe(habits => {
+      console.log("Habits with checks:", habits);
+      this.habits = habits.data;
+    });
+  }
 
   onWeekChange(startDate: Date) {
-    this.habitsService.getHabitsWithChecks(startDate).subscribe(habits => {
-        console.log("Habits with checks:", habits);
-        this.habits = habits.data;
-      });
+    this.startDate = startDate;
+    this.getHabitsWithChecks();
+  }
+
+  onHabitCheckChange(habitId: string, weekDayIndex: number) {
+    const checkDate = new Date(this.startDate);
+    checkDate.setDate(this.startDate.getDate() + weekDayIndex);
+    this.habitsService.updateHabitCheck(habitId, checkDate, 1).subscribe(res => {
+        console.log("Habit check updated:", res);
+    });
   }
 
   createHabit() {
@@ -35,6 +50,7 @@ export class Habits implements OnInit {
     };
     this.habitsService.createHabit(habit).subscribe(() => {
       this.newHabit = '';
+      this.getHabitsWithChecks();
     });
   }
 }

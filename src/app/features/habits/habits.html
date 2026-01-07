@@ -3,20 +3,20 @@
   <app-button [label]="'Add new habit'"></app-button>
 </header>
 
-<app-week-selector [firstDayOfWeek]="0" (weekChange)="onWeekChange($event)"></app-week-selector>
+<app-week-selector [firstDayOfWeek]="firstDayOfWeek" (weekChange)="onWeekChange($event)"></app-week-selector>
 
 
 <table class="habits-table panel">
 
     <tr  class="habits-row habits-header">
       <th class="habit-name">Habit</th>
+      <th class="habit-day">Sun</th>
       <th class="habit-day">Mon</th>
       <th class="habit-day">Tue</th>
       <th class="habit-day">Wed</th>
       <th class="habit-day">Thu</th>
       <th class="habit-day">Fri</th>
       <th class="habit-day">Sat</th>
-      <th class="habit-day">Sun</th>
     </tr>
 
     <!-- 
@@ -30,6 +30,7 @@
       <label class="checkbox">
         <input
           [(ngModel)]="habit.weekChecks[$index]"
+          (change)="onHabitCheckChange(habit.id, $index)"
           type="checkbox"
           name="is-done"
           />

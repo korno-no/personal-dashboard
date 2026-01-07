@@ -1,4 +1,4 @@
-const { getHabits,getHabitsWithChecks, createHabit, deleteHabit, addHabitCheck, getHabitChecks } = require('../database/habitsRepo');
+const { getHabits,getHabitsWithChecks, createHabit, updateHabitCheck, getHabitChecks } = require('../database/habitsRepo');
 
 async function getAllHabitsHandler(req, res) {
   try {
@@ -13,24 +13,6 @@ async function getAllHabitsHandler(req, res) {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch habits',
-      error: error.message
-    });
-  }
-}
-
-async function getHabitsWithChecksHandler(req, res) {
-  try {
-    const habits = await getHabitsWithChecks(req.query.startDate);
-    res.json({
-      success: true,
-      data: habits,
-      count: habits.length
-    });
-  } catch (error) {
-    console.error('Error fetching habits with checks:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch habits with checks',
       error: error.message
     });
   }
@@ -95,47 +77,54 @@ async function deleteHabitHandler(req, res) {
   }
 }
 
-async function addHabitCheckHandler(req, res) {
+async function getHabitsWithChecksHandler(req, res) {
   try {
-    const { habitId, date, doneQuantity } = req.body;
+    const habits = await getHabitsWithChecks(req.query.startDate);
+    res.json({
+      success: true,
+      data: habits,
+      count: habits.length
+    });
+  } catch (error) {
+    console.error('Error fetching habits with checks:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch habits with checks',
+      error: error.message
+    });
+  }
+}
 
-    if (!habitId) {
+async function updateHabitCheckHandler(req, res) {
+  try {
+    const { id } = req.params;
+    const { date, quantity } = req.body;
+
+    if (!id) {
       return res.status(400).json({
         success: false,
         message: 'Habit ID is required'
       });
     }
 
-    const newCheck = await addHabitCheck({ habitId, date, doneQuantity });
-    res.status(201).json({
-      success: true,
-      data: newCheck,
-      message: 'Habit check added successfully'
-    });
-  } catch (error) {
-    console.error('Error adding habit check:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to add habit check',
-      error: error.message
-    });
-  }
-}
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: 'Date is required'
+      });
+    }
 
-async function getHabitChecksHandler(req, res) {
-  try {
-    const { habitId } = req.query;
-    const checks = await getHabitChecks(habitId);
+    const updatedHabit = await updateHabitCheck({id, date, quantity});
     res.json({
       success: true,
-      data: checks,
-      count: checks.length
+      data: updatedHabit,
+      message: 'Habit check updated successfully'
     });
   } catch (error) {
-    console.error('Error fetching habit checks:', error);
+    console.error('Error updating habit check:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch habit checks',
+      message: 'Failed to update habit check',
       error: error.message
     });
   }
@@ -143,10 +132,9 @@ async function getHabitChecksHandler(req, res) {
 
 module.exports = {
   getAllHabitsHandler,
-  getHabitsWithChecksHandler,
   createHabitHandler,
   deleteHabitHandler,
-  addHabitCheckHandler,
-  getHabitChecksHandler
+  getHabitsWithChecksHandler,
+  updateHabitCheckHandler
 };
 
