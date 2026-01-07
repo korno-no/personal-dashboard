@@ -40,15 +40,14 @@
     }
   }
 </table>
-
-<div>
-  <label for="newHabit">Name: </label>
-  <input 
-    [(ngModel)]="newHabit"
-    type="text"
-    class="input input_edit-task"
-    name="newHabit" 
-  >
-  <app-button [label]="'Add Habit'" (click)="createHabit()"></app-button>
-  <app-button [label]="'Cancel'"></app-button>
-</div>
+<app-button 
+  [label]="'Add Habit'" 
+  (click)="isModalOpen = true"
+></app-button>
+@if(isModalOpen){
+  <app-modal 
+    [label]="'Add Habit'"
+    (saveValue)="createHabit($event)"
+    (close)="isModalOpen = false"
+  ></app-modal>
+}

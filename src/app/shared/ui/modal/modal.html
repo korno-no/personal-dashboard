@@ -1,0 +1,16 @@
+<div class="modal-backdrop" (click)="onBackdropClick()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2 class="modal__title">{{ label }}</h2>
+    <input 
+      [(ngModel)]="inputValue"
+      type="text"
+      class="input input_edit-task"
+      name="newHabit" 
+    >
+    <div class="modal__actions">
+      <app-button [label]="'Add Habit'" (click)="onSave()"></app-button>
+      <app-button [label]="'Cancel'" (click)="onCancel()"></app-button>
+    </div>
+  </div>
+</div>
+

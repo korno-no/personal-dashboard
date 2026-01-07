@@ -1,27 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Button } from "../../shared/ui/button/button";
 import { WeekSelector } from "./week-selector/week-selector";
 import { Habit } from './habit-model';
 import { HabitsService } from './habits-service';
 import { FormsModule } from '@angular/forms';
+import { Modal } from "../../shared/ui/modal/modal";
 
 
 @Component({
   selector: 'app-habits',
-  imports: [Button, WeekSelector, FormsModule],
+  imports: [Button, WeekSelector, FormsModule, Modal],
   templateUrl: './habits.html',
   styleUrl: './habits.css'
 })
-export class Habits implements OnInit {
-
+export class Habits {
   firstDayOfWeek: number = 0; // 1 = Monday, 0 = Sunday
   startDate!: Date; 
   private habitsService = inject(HabitsService);
   newHabit = '';
   habits: Habit[] = [];
-
-
-  ngOnInit(): void {}
+  isModalOpen = false;
   
   getHabitsWithChecks() {
     this.habitsService.getHabitsWithChecks(this.startDate).subscribe(habits => {
@@ -43,9 +41,9 @@ export class Habits implements OnInit {
     });
   }
 
-  createHabit() {
+  createHabit(savedName: string) {
     const habit = {
-      name: this.newHabit.trim(),
+      name: savedName.trim(),
       desiredQuantity: 1,
     };
     this.habitsService.createHabit(habit).subscribe(() => {
